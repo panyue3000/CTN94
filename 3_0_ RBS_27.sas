@@ -320,7 +320,7 @@ PROC SQL;
    CREATE TABLE RBS27_1 AS 
    SELECT DISTINCT
 			SUBSTR(CATS(t1.who, t2.who, t3.who),1,12) as who,
-			SUBSTR(CATS(t1.visit, t2.visit, t3.visit),1,2) as visit,
+			SUBSTR(CATS(t1.visit, t2.visit, t3.visit),1,8) as visit,
 /*	      T2.WHO as who1, */
 /*          T2.VISIT as who2, */
           MVW_NPT, 	
