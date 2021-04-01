@@ -300,41 +300,44 @@ RUN;
 /*create final version*/
 PROC SQL;
    CREATE TABLE RBS30_1 AS 
-   SELECT 
+   SELECT DISTINCT
 			SUBSTR(CATS(t1.who, t2.who, t3.who),1,12) as who,
 			SUBSTR(CATS(t1.visit, t2.visit, t3.visit),1,2) as visit,
-/*	      t1.WHO as who1, */
-/*          t1.VISIT as who2, */
+/*	      T2.WHO as who1, */
+/*          T2.VISIT as who2, */
           MVW_NPT, 	
-          INPUT(T1.MVW_FRQ, BEST.) AS MVW_FRQ, 	
-          INPUT(T1.MVW_CDM, BEST.) AS MVW_CDM, 	
+          INPUT(T2.MVW_FRQ, BEST.) AS MVW_FRQ, 	
+          INPUT(T2.MVW_CDM, BEST.) AS MVW_CDM, 	
           MAW_NPT, 	
-          INPUT(T1.MAW_FRQ, BEST.) AS MAW_FRQ, 	
-          INPUT(T1.MAW_CDM, BEST.) AS MAW_CDM, 	
+          INPUT(T2.MAW_FRQ, BEST.) AS MAW_FRQ, 	
+          INPUT(T2.MAW_CDM, BEST.) AS MAW_CDM, 	
           MIM_NPT, 	
-          INPUT(T1.MIM_FRQ, BEST.) AS MIM_FRQ, 	
-          INPUT(T1.MIM_CDM, BEST.) AS MIM_CDM, 	
+          INPUT(T2.MIM_FRQ, BEST.) AS MIM_FRQ, 	
+          INPUT(T2.MIM_CDM, BEST.) AS MIM_CDM, 	
           MRM_NPT, 	
-          INPUT(T1.MRM_FRQ, BEST.) AS MRM_FRQ, 	
-          INPUT(T1.MRM_CDM, BEST.) AS MRM_CDM, 	
-/*		  t2.who as who2,*/
-/*		  t2.visit as visit2,*/
+          INPUT(T2.MRM_FRQ, BEST.) AS MRM_FRQ, 	
+          INPUT(T2.MRM_CDM, BEST.) AS MRM_CDM, 	
+/*		  T3.who as who2,*/
+/*		  T3.visit as visiT3,*/
 		  WVM_NPT, 	
-          INPUT(T2.WVM_FRQ, BEST.) AS WVM_FRQ, 	
-          INPUT(T2.WVM_CDM, BEST.) AS WVM_CDM, 	
+          INPUT(T3.WVM_FRQ, BEST.) AS WVM_FRQ, 	
+          INPUT(T3.WVM_CDM, BEST.) AS WVM_CDM, 	
           WAM_NPT, 	
-          INPUT(T2.WAM_FRQ, BEST.) AS WAM_FRQ, 	
-          INPUT(T2.WAM_CDM,	BEST.) AS WAM_CDM,
-/*		  t3.who as who3,*/
-/*		  t3.visit as visit3,*/
-		  t3.T_P, /*TOTAL # OR PARTNER*/
-          t3.T_FP, 
-          t3.T_MP, 
-          t3.T_ISMALE
-FROM WORK.RBS30M_02 t1
-           FULL JOIN WORK.RBS30W_02 t2 ON (t1.WHO = t2.WHO) AND (t1.VISIT = t2.VISIT)
-           FULL JOIN WORK.RBS30_02 t3 ON (t1.WHO = t3.WHO) AND (t1.VISIT = t3.VISIT);
+          INPUT(T3.WAM_FRQ, BEST.) AS WAM_FRQ, 	
+          INPUT(T3.WAM_CDM,	BEST.) AS WAM_CDM,
+		  t1.who as who3,
+		  t1.visit as visit3,
+		  t1.T_P, /*TOTAL # OR PARTNER*/
+          t1.T_FP, 
+          t1.T_MP, 
+          t1.T_ISMALE
+FROM WORK.RBS30_02 t1
+           FULL JOIN WORK.RBS30M_02 t2 ON (t1.WHO = t2.WHO) AND (t1.VISIT = t2.VISIT)
+           FULL JOIN WORK.RBS30W_02 t3 ON (t1.WHO = t3.WHO) AND (t1.VISIT = t3.VISIT);
 QUIT;
+
+PROC FREQ DATA=RBS30_1;
+RUN;
 
 
 /*CREATE SEX HARMANIZED VARIABLE*/
