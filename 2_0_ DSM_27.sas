@@ -106,14 +106,42 @@ PROC SQL;
 QUIT;
 
 /*RENAME 3 NO DIAGNOSIS TO 0*/
+
+/*CREATE BINARY LIST*/
+/*DSM-IV Checklist*/
+/*2. Opiates: (CTN0027CDD:t_frDSM.DSMOPI)*/
+/*[1] Dependence [2] Abuse [3] No diagnosis*/
+/*3. Alcohol: (CTN0027CDD:t_frDSM.DSMAL)*/
+/*[1] Dependence [2] Abuse [3] No diagnosis*/
+/*4. Amphetamines: (CTN0027CDD:t_frDSM.DSMAM)*/
+/*[1] Dependence [2] Abuse [3] No diagnosis*/
+/*5. Cannabis: (CTN0027CDD:t_frDSM.DSMCA)*/
+/*[1] Dependence [2] Abuse [3] No diagnosis*/
+/*6. Cocaine: (CTN0027CDD:t_frDSM.DSMCO)*/
+/*[1] Dependence [2] Abuse [3] No diagnosis*/
+/*7. Sedatives:*/
+/*[1] Dependence [2] Abuse [3] No diagnosis*/
+
+%macro DSM_A(DSM_I, DSM_O);
+	 IF &DSM_I = 3 THEN &DSM_O=0;
+ELSE IF &DSM_I IN (1 2) THEN &DSM_O=1;
+%mend;
+
+
 DATA DSM_27;
 SET DSM_2702;
-IF DSMOPI = 3 THEN DSMOPI=0;
-IF DSMAL = 3 THEN DSMAL=0;
-IF DSMAM = 3 THEN DSMAM=0;
-IF DSMCA = 3 THEN DSMCA=0;
-IF DSMCO = 3 THEN DSMCO=0;
-IF DSMSE = 3 THEN DSMSE=0;
+
+%DSM_A( DSMOPI, DSMOPI2);
+%DSM_A( DSMAL, DSMAL);
+%DSM_A( DSMAM, DSMAM);
+%DSM_A( DSMCA, DSMCA);
+%DSM_A( DSMCO, DSMCO);
+%DSM_A( DSMSE, DSMSE);
+
+DSMOPI = MAX(DSMOPI2, DSMOD);
+
+DROP DSMOPI2;
+
 RUN;
 
 
