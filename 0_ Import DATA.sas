@@ -167,59 +167,59 @@ proc format;
 	value $X27287X "  " = "  ";   
 	value $X28185X "  " = "  ";   
 run;
-
-Data T51 ctn.offs;
-Set CTN51.T51;
-array y(7) 		TLDATE1 -TLDATE7;
-array y1(7) 	TLSUBAL1-TLSUBAL7;
-array y2(7) 	TLALCHL1-TLALCHL7;
-array y3(7) 	TLTHCR1 -TLTHCR7;
-array y4(7) 	TLCOCR1 -TLCOCR7;
-array y5(7) 	TLCRAKR1-TLCRAKR7;
-array y6(7) 	TLAMPR1 -TLAMPR7;
-array y7(7) 	TLBUPR1 -TLBUPR7;
-array y8(7) 	TLOPIR1 -TLOPIR7;
-array y9(7) 	TLMTDR1 -TLMTDR7;
-array y10(7) 	TLHERR1 -TLHERR7;
-array y11(7)	TLMDAR1 -TLMDAR7;
-array y12(7)	TLBARR1 -TLBARR7;
-array y13(7)	TLBZOR1 -TLBZOR7;
-array y14(7)	TLINHR1 -TLINHR7;
-array y15(7)	TLOT1R1 -TLOT1R7;
-array y16(7)	TLOTSP11-TLOTSP17;
-array y17(7)	TLOT2R1 -TLOT2R7;
-array y18(7)	TLOTSP21 TLOTSP22 TLOTSP23 TLOTSP24 TLOTSP25 TLOTSP26 TLOTSP217;
-format date mmddyy8.;
-*  Adding zero should make these into numeric variables;
-Do time = 1 to 7;
-   DayofWk =time;
-   Date    =y(time);
-   TLSUBAL =input(y1(time), best.);
-   TLALCHL =y2(time);
-   TLTHCR  =input(y3(time), best.);
-   TLCOCR  =input(y4(time), best.);
-   TLCRAK  =input(y5(time), best.);
-   TLAMPR  =input(y6(time), best.);
-   TLBUPR  =input(y7(time), best.);
-   TLOPIR  =input(y8(time), best.);
-   TLMTDR  =input(y9(time), best.);
-   TLHERR  =input(y10(time), best.);
-   TLMDAR  =input(y11(time), best.);
-   TLBARR  =input(y12(time), best.);
-   TLBZOR  =input(y13(time), best.);
-   TLINHR  =input(y14(time), best.);
-   TLOT1R  =input(y15(time), best.); 
-   TLOTSP1 =y16(time);
-   TLOT2R  =input(y17(time), best.); 
-   TLOTSP2 =y18(time);
-   if not missing(date) and missing(TLSUBAL) then output ctn.offs;
-   else if Date ne . then output T51;
-end;
-keep PROT PATID SITE RANDDT TFWKSTDT DayofWk Date TLSUBAL TLALCHL TLTHCR TLCOCR TLCRAK 
-     TLAMPR TLBUPR TLOPIR TLMTDR TLHERR TLMDAR TLBARR TLBZOR TLINHR TLOT1R TLOTSP1 
-     TLOT2R TLOTSP2 T51COMM
-;
-run;
-
-
-
+/**/
+/*Data T51 ctn.offs;*/
+/*Set CTN51.T51;*/
+/*array y(7) 		TLDATE1 -TLDATE7;*/
+/*array y1(7) 	TLSUBAL1-TLSUBAL7;*/
+/*array y2(7) 	TLALCHL1-TLALCHL7;*/
+/*array y3(7) 	TLTHCR1 -TLTHCR7;*/
+/*array y4(7) 	TLCOCR1 -TLCOCR7;*/
+/*array y5(7) 	TLCRAKR1-TLCRAKR7;*/
+/*array y6(7) 	TLAMPR1 -TLAMPR7;*/
+/*array y7(7) 	TLBUPR1 -TLBUPR7;*/
+/*array y8(7) 	TLOPIR1 -TLOPIR7;*/
+/*array y9(7) 	TLMTDR1 -TLMTDR7;*/
+/*array y10(7) 	TLHERR1 -TLHERR7;*/
+/*array y11(7)	TLMDAR1 -TLMDAR7;*/
+/*array y12(7)	TLBARR1 -TLBARR7;*/
+/*array y13(7)	TLBZOR1 -TLBZOR7;*/
+/*array y14(7)	TLINHR1 -TLINHR7;*/
+/*array y15(7)	TLOT1R1 -TLOT1R7;*/
+/*array y16(7)	TLOTSP11-TLOTSP17;*/
+/*array y17(7)	TLOT2R1 -TLOT2R7;*/
+/*array y18(7)	TLOTSP21 TLOTSP22 TLOTSP23 TLOTSP24 TLOTSP25 TLOTSP26 TLOTSP217;*/
+/*format date mmddyy8.;*/
+/**  Adding zero should make these into numeric variables;*/
+/*Do time = 1 to 7;*/
+/*   DayofWk =time;*/
+/*   Date    =y(time);*/
+/*   TLSUBAL =input(y1(time), best.);*/
+/*   TLALCHL =y2(time);*/
+/*   TLTHCR  =input(y3(time), best.);*/
+/*   TLCOCR  =input(y4(time), best.);*/
+/*   TLCRAK  =input(y5(time), best.);*/
+/*   TLAMPR  =input(y6(time), best.);*/
+/*   TLBUPR  =input(y7(time), best.);*/
+/*   TLOPIR  =input(y8(time), best.);*/
+/*   TLMTDR  =input(y9(time), best.);*/
+/*   TLHERR  =input(y10(time), best.);*/
+/*   TLMDAR  =input(y11(time), best.);*/
+/*   TLBARR  =input(y12(time), best.);*/
+/*   TLBZOR  =input(y13(time), best.);*/
+/*   TLINHR  =input(y14(time), best.);*/
+/*   TLOT1R  =input(y15(time), best.); */
+/*   TLOTSP1 =y16(time);*/
+/*   TLOT2R  =input(y17(time), best.); */
+/*   TLOTSP2 =y18(time);*/
+/*   if not missing(date) and missing(TLSUBAL) then output ctn.offs;*/
+/*   else if Date ne . then output T51;*/
+/*end;*/
+/*keep PROT PATID SITE RANDDT TFWKSTDT DayofWk Date TLSUBAL TLALCHL TLTHCR TLCOCR TLCRAK */
+/*     TLAMPR TLBUPR TLOPIR TLMTDR TLHERR TLMDAR TLBARR TLBZOR TLINHR TLOT1R TLOTSP1 */
+/*     TLOT2R TLOTSP2 T51COMM*/
+/*;*/
+/*run;*/
+/**/
+/**/
+/**/

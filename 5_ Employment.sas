@@ -1,0 +1,90 @@
+
+%macro JOB(JOB, JOB_O);
+IF &JOB IN (97) THEN &JOB_O=.;
+%mend;
+
+/*CTN30:*/
+
+PROC SQL;
+   CREATE TABLE JOB30_0 AS 
+   SELECT "30" AS PROJECT,
+		  t1.PATIENTNUMBER AS WHO, 
+          t1.VISIT, 
+          INPUT(t1.E10, BEST.) AS JOB0,
+          case when CALCULATED JOB0 in (1) then "1FULL TIME"
+          	   when CALCULATED JOB0 in (2 3) then "2PART TIME"
+               when CALCULATED JOB0 in (4) then "3STUDENT"
+               when CALCULATED JOB0 in (5 6 8) then "4OTHER"
+               when CALCULATED JOB0 in (7) then "0UNEMPLOYED" END AS JOB,
+		  T2.E12 AS INCOME,
+          case when T3.F4 in ('1' '2' '3' '4' '5' '6' '7' '8') then 1 
+		  	   WHEN T3.F4 in ('9') then 0 END AS IS_LIVINGSTABLE
+      FROM CTN30.t_frASL2 t1 FULL JOIN CTN30.T_FRASL3 T2 ON 
+		  T1.PATIENTNUMBER=T2.PATIENTNUMBER FULL JOIN CTN30.T_FRASL9 T3 ON 
+		  T1.PATIENTNUMBER=T3.PATIENTNUMBER
+
+;
+QUIT;
+
+
+PROC FREQ DATA= JOB30_0;
+/*TABLES VISIT*JOB;*/
+RUN;
+
+
+/*CTN51:*/
+
+PROC SQL;
+   CREATE TABLE JOB51_0 AS 
+   SELECT "51" AS PROJECT,
+		  t1.PATID AS WHO, 
+          t1.VISNO AS VISIT, 
+          INPUT(t1.AEUSEMPL, BEST.) AS JOB0,
+          case when CALCULATED JOB0 in (1) then "1FULL TIME"
+          	   when CALCULATED JOB0 in (2 3) then "2PART TIME"
+               when CALCULATED JOB0 in (4) then "3STUDENT"
+               when CALCULATED JOB0 in (5 6 8) then "4OTHER"
+               when CALCULATED JOB0 in (7) then "0UNEMPLOYED" END AS JOB,
+		  T1.AEEMPMNY  AS INCOME,
+/*		  T1.AEEMNYNA*/
+          case when T2.AFLIVARR in ('1' '2' '3' '4' '5' '6' '7' '8') then 1 
+		  	   WHEN T2.AFLIVARR in ('9') then 0 END AS IS_LIVINGSTABLE
+	FROM CTN51.ASE t1 FULL JOIN CTN51.ASF T2 ON 
+		  T1.PATID=T2.PATID AND T1.VISNO=T2.VISNO;
+QUIT;
+
+PROC FREQ DATA= JOB51_0;
+/*TABLES VISIT*JOB;*/
+RUN;
+
+DATA JOB51;
+
+SET JOB51_0;
+
+%JOB(JOB, JOB);
+
+RUN;
+
+PROC FREQ DATA= JOB51;
+TABLES VISIT*JOB;
+RUN;
+
+
+/*COMBINE ALL*/
+DATA JOB;
+SET 
+
+/*JOB27 */
+JOB30_0 
+JOB51_0
+;
+
+IF VISIT IN ('BASELINE' 'BL' '00')
+;
+
+DROP JOB0;
+
+RUN;
+
+PROC FREQ DATA= JOB;
+RUN;
