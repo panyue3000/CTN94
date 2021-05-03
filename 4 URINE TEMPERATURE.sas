@@ -65,8 +65,19 @@ PROC SQL;
    SELECT "51" AS PROJECT,
 		  t1.PATID AS WHO, 
           t1.VISNO AS VISIT, 
-          INPUT(t1.UDTEMP1, BEST.) AS URI_TEMP
-      FROM CTN51.UDS t1;
+          INPUT(t1.UDTEMP1, BEST.) AS URI_TEMP,
+/*		  Unclear, Invalid or Not Assessed (Test Failure)*/
+		  case when UDADULT1 in ('1') then 1 
+	           when UDADULT1 in ('0') then 0 end as uri_fail,
+/*		  Unclear, Invalid or Not Assessed (Test Failure) include missing*/
+		  case when UDADULT1 in ('1' '') then 1 
+	           else 0 end as uri_fail2
+
+/*		  UDTEMP2,	*/
+/*		  UDADULT1,*/
+/*		  UDADULT2*/
+      FROM CTN51.UDS T1
+;
 QUIT;
 
 PROC FREQ DATA= URINE51_0;
@@ -100,4 +111,5 @@ IF VISIT IN ('BASELINE' 'BL' '00')
 RUN;
 
 PROC FREQ DATA= URI;
+tables project*(uri_temp uri_fail uri_fail2);
 RUN;
